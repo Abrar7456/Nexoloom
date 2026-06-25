@@ -136,7 +136,7 @@ export const Portfolio: React.FC = () => {
   };
 
   return (
-    <section id="portfolio" className="py-24 relative overflow-hidden bg-transparent border-t border-slate-900">
+    <section id="portfolio" className="py-24 relative overflow-hidden bg-transparent">
       {/* Background blobs */}
       <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-blue-950/10 rounded-full blur-[150px] pointer-events-none" />
 

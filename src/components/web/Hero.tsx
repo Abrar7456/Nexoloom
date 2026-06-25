@@ -206,12 +206,7 @@ export const Hero: React.FC = () => {
       {/* Interactive canvas background */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-10" />
 
-      {/* Floating background gradient orbs */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute -top-[10%] -left-[10%] w-[50vw] h-[50vw] rounded-full bg-violet-900/10 blur-[130px] animate-blob-1" />
-        <div className="absolute top-[30%] -right-[10%] w-[45vw] h-[45vw] rounded-full bg-blue-900/10 blur-[120px] animate-blob-2" />
-        <div className="absolute -bottom-[10%] left-[20%] w-[35vw] h-[35vw] rounded-full bg-purple-900/10 blur-[110px] animate-blob-3" />
-      </div>
+
 
       <FloatingShapes />
       <MorphingBlob className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 opacity-40" size={600} />

@@ -10,7 +10,7 @@ import { Testimonials } from "@/components/web/Testimonials";
 import { FAQ } from "@/components/web/FAQ";
 import { Contact } from "@/components/web/Contact";
 import { Footer } from "@/components/web/Footer";
-import { WaveDivider } from "@/components/web/SVGAnimations";
+
 import { SceneBackground } from "@/components/web/SceneBackground";
 
 export default function Home() {
@@ -25,13 +25,10 @@ export default function Home() {
       {/* Main Sections */}
       <main className="flex-grow relative z-10">
         <Hero />
-        <WaveDivider />
         <Services />
         <About />
-        <WaveDivider flip />
         <Team />
         <Portfolio />
-        <WaveDivider />
         <Process />
         <Pricing />
         <Testimonials />
