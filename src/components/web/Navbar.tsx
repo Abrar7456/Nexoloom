@@ -12,6 +12,7 @@ const navLinks = [
   { name: "Team",         href: "#team",         emoji: "👥" },
   { name: "Portfolio",    href: "#portfolio",    emoji: "🎨" },
   { name: "Process",      href: "#process",      emoji: "🔄" },
+  { name: "Pricing",      href: "#pricing",      emoji: "💎" },
   { name: "Testimonials", href: "#testimonials", emoji: "⭐" },
   { name: "Contact",      href: "#contact",      emoji: "📬" },
 ];

@@ -130,7 +130,11 @@ export const Footer: React.FC = () => {
                   Graphic & Identity Design
                 </a>
               </li>
-              {/* Pricing removed from public site navigation */}
+              <li>
+                <a href="#pricing" onClick={(e) => handleLinkClick(e, "#pricing")} className="hover:text-white transition-colors">
+                  Service Tiers
+                </a>
+              </li>
             </ul>
           </div>
 

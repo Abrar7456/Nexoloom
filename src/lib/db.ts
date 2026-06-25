@@ -40,6 +40,14 @@ export const dbService = {
       snap.forEach((d) => {
         list.push({ id: d.id, ...d.data() } as Service);
       });
+      if (list.length === 0) {
+        // Seed database if empty
+        for (const item of defaultServices) {
+          const { id, ...rest } = item;
+          await setDoc(doc(db, "services", id), rest);
+        }
+        return defaultServices;
+      }
       return list;
     } catch (e) {
       console.warn("Firestore error getting services:", e);
@@ -62,6 +70,13 @@ export const dbService = {
       snap.forEach((d) => {
         list.push({ id: d.id, ...d.data() } as TeamMember);
       });
+      if (list.length === 0) {
+        for (const item of defaultTeam) {
+          const { id, ...rest } = item;
+          await setDoc(doc(db, "team", id), rest);
+        }
+        return defaultTeam;
+      }
       return list;
     } catch (e) {
       console.warn(e);
@@ -95,6 +110,13 @@ export const dbService = {
       snap.forEach((d) => {
         list.push({ id: d.id, ...d.data() } as Project);
       });
+      if (list.length === 0) {
+        for (const item of defaultPortfolio) {
+          const { id, ...rest } = item;
+          await setDoc(doc(db, "portfolio", id), rest);
+        }
+        return defaultPortfolio;
+      }
       return list;
     } catch (e) {
       console.warn(e);
@@ -128,6 +150,13 @@ export const dbService = {
       snap.forEach((d) => {
         list.push({ id: d.id, ...d.data() } as PricingTier);
       });
+      if (list.length === 0) {
+        for (const item of defaultPricing) {
+          const { id, ...rest } = item;
+          await setDoc(doc(db, "pricing", id), rest);
+        }
+        return defaultPricing;
+      }
       return list;
     } catch (e) {
       console.warn(e);
@@ -161,6 +190,13 @@ export const dbService = {
       snap.forEach((d) => {
         list.push({ id: d.id, ...d.data() } as Testimonial);
       });
+      if (list.length === 0) {
+        for (const item of defaultTestimonials) {
+          const { id, ...rest } = item;
+          await setDoc(doc(db, "testimonials", id), rest);
+        }
+        return defaultTestimonials;
+      }
       return list;
     } catch (e) {
       console.warn(e);
@@ -241,7 +277,7 @@ export const dbService = {
       if (snap.exists()) {
         return snap.data() as SiteSettings;
       } else {
-        // Do not auto-write defaults into Firestore - return in-memory defaults
+        await setDoc(docRef, defaultSettings);
         return defaultSettings;
       }
     } catch (e) {

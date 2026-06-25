@@ -40,8 +40,7 @@ export default function TeamCMSPage() {
     setEditingMember({
       name: "",
       role: "",
-      hierarchyLevel: 'Staff',
-      branch: 'Center',
+      department: "Development",
       photoUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400",
       bio: "",
       socials: { linkedin: "", github: "", instagram: "" },
@@ -114,8 +113,7 @@ export default function TeamCMSPage() {
       const payload: Omit<TeamMember, "id"> = {
         name: editingMember.name,
         role: editingMember.role,
-        hierarchyLevel: (editingMember.hierarchyLevel as any) || 'Staff',
-        branch: (editingMember.branch as any) || 'Center',
+        department: editingMember.department || "Development",
         photoUrl: editingMember.photoUrl || "",
         bio: editingMember.bio || "",
         socials: editingMember.socials || {},
@@ -146,9 +144,9 @@ export default function TeamCMSPage() {
     try {
       setTeam(list); // optimistic UI update
       for (let i = 0; i < list.length; i++) {
-        const { id, name, role, hierarchyLevel, branch, photoUrl, bio, socials } = list[i];
+        const { id, name, role, department, photoUrl, bio, socials } = list[i];
         await dbService.saveTeamMember(id, {
-          name, role, hierarchyLevel, branch, photoUrl, bio, socials, order: i + 1
+          name, role, department, photoUrl, bio, socials, order: i + 1
         });
       }
       toast.success("Ordering updated.");
@@ -210,10 +208,9 @@ export default function TeamCMSPage() {
                     </div>
                   </td>
                   <td className="p-4">
-                    <div className="flex flex-col gap-1">
-                      <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-900 border border-slate-800 text-slate-300">{member.hierarchyLevel}</span>
-                      <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-semibold bg-slate-950 border border-slate-900 text-slate-400">Branch: {member.branch}</span>
-                    </div>
+                    <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-900 border border-slate-800 text-slate-300">
+                      {member.department}
+                    </span>
                   </td>
                   <td className="p-4">
                     <div className="flex items-center gap-1 text-slate-400">
@@ -321,32 +318,17 @@ export default function TeamCMSPage() {
               </div>
 
               {/* Department */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Hierarchy Level</label>
-                  <select
-                    value={(editingMember.hierarchyLevel as string) || 'Staff'}
-                    onChange={(e) => setEditingMember({ ...editingMember, hierarchyLevel: e.target.value as any })}
-                    className="w-full px-4 py-3 text-xs text-slate-300 rounded-xl bg-slate-950 border border-slate-800 focus:outline-none focus:border-violet-500 cursor-pointer"
-                  >
-                    <option value="CEO">CEO</option>
-                    <option value="Executive">Executive</option>
-                    <option value="Staff">Staff</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Branch</label>
-                  <select
-                    value={(editingMember.branch as string) || 'Center'}
-                    onChange={(e) => setEditingMember({ ...editingMember, branch: e.target.value as any })}
-                    className="w-full px-4 py-3 text-xs text-slate-300 rounded-xl bg-slate-950 border border-slate-800 focus:outline-none focus:border-violet-500 cursor-pointer"
-                  >
-                    <option value="Left">Left</option>
-                    <option value="Center">Center</option>
-                    <option value="Right">Right</option>
-                  </select>
-                </div>
+              <div>
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Department Category</label>
+                <select
+                  value={editingMember.department || "Development"}
+                  onChange={(e) => setEditingMember({ ...editingMember, department: e.target.value as any })}
+                  className="w-full px-4 py-3 text-xs text-slate-300 rounded-xl bg-slate-950 border border-slate-800 focus:outline-none focus:border-violet-500 cursor-pointer"
+                >
+                  <option value="Development">Development</option>
+                  <option value="Design">Design</option>
+                  <option value="Marketing">Marketing</option>
+                </select>
               </div>
 
               {/* Bio */}
