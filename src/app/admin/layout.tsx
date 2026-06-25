@@ -27,7 +27,6 @@ const sidebarLinks = [
   { name: "Team Members", href: "/admin/team", icon: Users },
   { name: "Portfolio", href: "/admin/portfolio", icon: Briefcase },
   { name: "Testimonials", href: "/admin/testimonials", icon: Quote },
-  { name: "Pricing Plans", href: "/admin/pricing", icon: DollarSign },
   { name: "Inquiries", href: "/admin/inquiries", icon: Mail },
   { name: "Site Settings", href: "/admin/settings", icon: Settings },
 ];

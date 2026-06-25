@@ -11,7 +11,8 @@ export interface TeamMember {
   id: string;
   name: string;
   role: string;
-  department: 'Development' | 'Design' | 'Marketing';
+  hierarchyLevel: 'CEO' | 'Executive' | 'Staff';
+  branch: 'Center' | 'Left' | 'Right';
   photoUrl: string;
   bio: string;
   socials: {
@@ -114,7 +115,8 @@ export const defaultTeam: TeamMember[] = [
     id: "team-1",
     name: "Alex Rivera",
     role: "Founder & Tech Lead",
-    department: "Development",
+    hierarchyLevel: 'CEO',
+    branch: 'Center',
     photoUrl: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400",
     bio: "Alex has over 10 years of experience building scalable architectures. He leads our dev team and ensures all e-commerce applications are optimized for speed.",
     socials: { linkedin: "https://linkedin.com", github: "https://github.com" },
@@ -124,7 +126,8 @@ export const defaultTeam: TeamMember[] = [
     id: "team-2",
     name: "Sarah Chen",
     role: "Creative Director",
-    department: "Design",
+    hierarchyLevel: 'Executive',
+    branch: 'Right',
     photoUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400",
     bio: "Sarah is passionate about visual storytelling and clean typography. She establishes the artistic direction for all design outputs at the agency.",
     socials: { linkedin: "https://linkedin.com", instagram: "https://instagram.com" },
@@ -134,7 +137,8 @@ export const defaultTeam: TeamMember[] = [
     id: "team-3",
     name: "Marcus Vance",
     role: "Head of Marketing",
-    department: "Marketing",
+    hierarchyLevel: 'Executive',
+    branch: 'Left',
     photoUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
     bio: "Marcus utilizes data-driven growth strategies to help B2B and DTC brands reach their scaling potential. Specialist in SEO and paid media optimization.",
     socials: { linkedin: "https://linkedin.com" },
@@ -144,7 +148,8 @@ export const defaultTeam: TeamMember[] = [
     id: "team-4",
     name: "Emily Watson",
     role: "Senior UI/UX Designer",
-    department: "Design",
+    hierarchyLevel: 'Staff',
+    branch: 'Right',
     photoUrl: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=400",
     bio: "Emily designs intuitive experiences centered on user behavior. She translates complex project specifications into beautiful, functional interfaces.",
     socials: { linkedin: "https://linkedin.com", github: "https://github.com", instagram: "https://instagram.com" },
