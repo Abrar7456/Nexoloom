@@ -8,6 +8,7 @@ import { dbService } from "@/lib/db";
 import { toast } from "react-hot-toast";
 import { Mail, Phone, MapPin, Send, CheckCircle2, MessageSquare, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSettings } from "@/context/SettingsContext";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -20,6 +21,7 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export const Contact: React.FC = () => {
+  const { settings } = useSettings();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
@@ -50,6 +52,17 @@ export const Contact: React.FC = () => {
         service: data.service,
         message: data.message,
       });
+
+      // Send email via our Next.js API route
+      await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          contactEmail: settings.contactEmail
+        })
+      });
+
       setSubmitSuccess(true);
       toast.success("Inquiry received! We'll contact you within 24 hours.");
       reset();
@@ -74,7 +87,7 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden bg-[#030307] border-t border-slate-900">
+    <section id="contact" className="py-24 relative overflow-hidden bg-transparent border-t border-slate-900">
       {/* Background glow */}
       <div className="absolute top-[20%] left-0 w-[400px] h-[400px] bg-blue-950/10 rounded-full blur-[120px] pointer-events-none" />
 
@@ -101,8 +114,8 @@ export const Contact: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block">Email Address</span>
-                    <a href="mailto:hello@auradigital.com" className="text-sm text-slate-200 hover:text-violet-400 font-medium transition-colors">
-                      hello@auradigital.com
+                    <a href={`mailto:${settings.contactEmail}`} className="text-sm text-slate-200 hover:text-violet-400 font-medium transition-colors">
+                      {settings.contactEmail}
                     </a>
                   </div>
                 </div>
@@ -113,8 +126,8 @@ export const Contact: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block">Phone Line</span>
-                    <a href="tel:+15553217654" className="text-sm text-slate-200 hover:text-blue-400 font-medium transition-colors">
-                      +1 (555) 321-7654
+                    <a href={`tel:${settings.contactPhone}`} className="text-sm text-slate-200 hover:text-blue-400 font-medium transition-colors">
+                      {settings.contactPhone}
                     </a>
                   </div>
                 </div>
@@ -126,7 +139,7 @@ export const Contact: React.FC = () => {
                   <div>
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block">Headquarters</span>
                     <span className="text-sm text-slate-200 font-medium">
-                      404 Creative Blvd, San Francisco, CA
+                      {settings.address}
                     </span>
                   </div>
                 </div>
@@ -136,7 +149,7 @@ export const Contact: React.FC = () => {
             {/* Premium Dark Google Map */}
             <div className="h-64 w-full rounded-2xl overflow-hidden border border-slate-800 shadow-xl relative">
               <iframe
-                title="Aura Office Map"
+                title="Nexoloom Office Map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0863878174415!2d-122.40428588468205!3d37.78564177975878!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1m3!1d1576!2d-122.4019!3d37.784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1655000000000!5m2!1sen!2sus"
                 className="w-full h-full border-0 grayscale invert opacity-70 contrast-125"
                 allowFullScreen={false}

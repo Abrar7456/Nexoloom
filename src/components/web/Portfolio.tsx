@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { dbService } from "@/lib/db";
-import { Project } from "@/lib/mockData";
+import { Project } from "@/lib/seedData";
 import { ExternalLink, Layers, Award, Sparkles, X } from "lucide-react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 
@@ -136,7 +136,7 @@ export const Portfolio: React.FC = () => {
   };
 
   return (
-    <section id="portfolio" className="py-24 relative overflow-hidden bg-[#030307] border-t border-slate-900">
+    <section id="portfolio" className="py-24 relative overflow-hidden bg-transparent border-t border-slate-900">
       {/* Background blobs */}
       <div className="absolute right-0 bottom-0 w-[500px] h-[500px] bg-blue-950/10 rounded-full blur-[150px] pointer-events-none" />
 

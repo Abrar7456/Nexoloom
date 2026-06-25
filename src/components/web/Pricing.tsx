@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { dbService } from "@/lib/db";
-import { PricingTier } from "@/lib/mockData";
+import { PricingTier } from "@/lib/seedData";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -29,7 +29,7 @@ export const Pricing: React.FC = () => {
     const messageEl = document.getElementById("message-input") as HTMLTextAreaElement | null;
     const contactEl = document.getElementById("contact");
     if (messageEl) {
-      messageEl.value = `Hi Aura Team, I am interested in the ${planName} pricing tier. Please provide more details on next steps.`;
+      messageEl.value = `Hi Nexoloom Team, I am interested in the ${planName} pricing tier. Please provide more details on next steps.`;
     }
     if (contactEl) {
       contactEl.scrollIntoView({ behavior: "smooth" });
@@ -37,7 +37,7 @@ export const Pricing: React.FC = () => {
   };
 
   return (
-    <section id="pricing" className="py-24 relative overflow-hidden bg-[#030307] border-t border-slate-900">
+    <section id="pricing" className="py-24 relative overflow-hidden bg-transparent border-t border-slate-900">
       {/* Background radial glow */}
       <div className="absolute top-[10%] left-[20%] w-[400px] h-[400px] bg-violet-950/10 rounded-full blur-[140px] pointer-events-none" />
 

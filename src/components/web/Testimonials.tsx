@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { dbService } from "@/lib/db";
-import { Testimonial } from "@/lib/mockData";
+import { Testimonial } from "@/lib/seedData";
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -69,7 +69,7 @@ export const Testimonials: React.FC = () => {
 
   if (loading) {
     return (
-      <section id="testimonials" className="py-24 bg-[#030307]">
+      <section id="testimonials" className="py-24 bg-transparent">
         <div className="max-w-4xl mx-auto px-6 h-80 rounded-3xl bg-slate-800/10 border border-slate-700/20 animate-pulse" />
       </section>
     );
@@ -80,7 +80,7 @@ export const Testimonials: React.FC = () => {
   const currentItem = testimonials[currentIndex];
 
   return (
-    <section id="testimonials" className="py-24 relative overflow-hidden bg-[#030307] border-t border-slate-900">
+    <section id="testimonials" className="py-24 relative overflow-hidden bg-transparent border-t border-slate-900">
       {/* Background decoration */}
       <div className="absolute top-[40%] right-0 w-[300px] h-[300px] bg-violet-950/10 rounded-full blur-[100px] pointer-events-none" />
 

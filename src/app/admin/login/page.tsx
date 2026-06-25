@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
             <Sparkles size={24} />
           </div>
           <h2 className="text-2xl font-black text-white tracking-tight">
-            {isResetMode ? "Reset Admin Password" : "Aura Portal System"}
+            {isResetMode ? "Reset Admin Password" : "Nexoloom Portal System"}
           </h2>
           <p className="text-xs text-slate-500 font-medium tracking-wide mt-1">
             {isResetMode

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { dbService } from "@/lib/db";
-import { TeamMember } from "@/lib/mockData";
+import { TeamMember } from "@/lib/seedData";
 import { toast } from "react-hot-toast";
 import {
   Plus,

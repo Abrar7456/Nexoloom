@@ -2,11 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { dbService } from "@/lib/db";
-import { SiteSettings } from "@/lib/mockData";
+import { SiteSettings } from "@/lib/seedData";
 import { toast } from "react-hot-toast";
 import { Save, Settings, ShieldAlert, Sparkles } from "lucide-react";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function SettingsCMSPage() {
+  const { refresh } = useSettings();
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -33,6 +35,8 @@ export default function SettingsCMSPage() {
     setSaving(true);
     try {
       await dbService.saveSettings(settings);
+      // Refresh context cache so theme/logo apply immediately on the page
+      await refresh();
       toast.success("Site settings applied successfully.");
     } catch (err) {
       console.error(err);
@@ -96,16 +100,94 @@ export default function SettingsCMSPage() {
 
               <div>
                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Color Preset Accent</label>
-                <select
-                  value={settings.themeAccent}
-                  onChange={(e) => setSettings({ ...settings, themeAccent: e.target.value })}
-                  className="w-full px-4 py-3 text-xs text-slate-300 rounded-xl bg-slate-950 border border-slate-800 focus:outline-none focus:border-violet-500 cursor-pointer"
-                >
-                  <option value="violet">Violet Accent (Purple Glow)</option>
-                  <option value="indigo">Indigo Accent (Sleek Slate)</option>
-                  <option value="blue">Blue Accent (Corporate Tech)</option>
-                  <option value="emerald">Emerald Accent (Organic Growth)</option>
-                </select>
+                <div className="grid grid-cols-4 gap-2 mb-5">
+                  {[
+                    { value: "violet", label: "Violet", from: "from-violet-600", to: "to-blue-500", glow: "shadow-violet-500/30" },
+                    { value: "indigo", label: "Indigo", from: "from-indigo-600", to: "to-slate-500", glow: "shadow-indigo-500/30" },
+                    { value: "blue", label: "Blue", from: "from-blue-600", to: "to-cyan-500", glow: "shadow-blue-500/30" },
+                    { value: "emerald", label: "Emerald", from: "from-emerald-500", to: "to-teal-500", glow: "shadow-emerald-500/30" },
+                    { value: "rose", label: "Rose", from: "from-rose-500", to: "to-orange-500", glow: "shadow-rose-500/30" },
+                    { value: "cyan", label: "Cyan", from: "from-cyan-500", to: "to-blue-500", glow: "shadow-cyan-500/30" },
+                    { value: "amber", label: "Amber", from: "from-amber-500", to: "to-yellow-400", glow: "shadow-amber-500/30" },
+                  ].map((accent) => (
+                    <button
+                      key={accent.value}
+                      type="button"
+                      onClick={() => setSettings({ ...settings, themeAccent: accent.value })}
+                      className={`flex flex-col items-center gap-1.5 p-2 rounded-xl border transition-all cursor-pointer ${
+                        settings.themeAccent === accent.value
+                          ? "border-white/30 bg-white/5 scale-105"
+                          : "border-slate-800 hover:border-slate-600"
+                      }`}
+                    >
+                      <div className={`w-8 h-8 rounded-lg bg-gradient-to-br ${accent.from} ${accent.to} shadow-md ${settings.themeAccent === accent.value ? accent.glow : ""}`} />
+                      <span className="text-[9px] font-semibold text-slate-400 uppercase tracking-wide">{accent.label}</span>
+                    </button>
+                  ))}
+                </div>
+
+                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Logo Icon Style</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { value: "circuit", label: "Circuit", desc: "Precision nodes",
+                      icon: (
+                        <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+                          <circle cx="14" cy="14" r="5" stroke="currentColor" strokeWidth="1.5" />
+                          <circle cx="14" cy="14" r="2" fill="currentColor" />
+                          <line x1="14" y1="2" x2="14" y2="9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          <line x1="14" y1="19" x2="14" y2="26" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          <line x1="2" y1="14" x2="9" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          <line x1="19" y1="14" x2="26" y2="14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          <circle cx="14" cy="2" r="1.5" fill="currentColor" fillOpacity="0.6" />
+                          <circle cx="14" cy="26" r="1.5" fill="currentColor" fillOpacity="0.6" />
+                          <circle cx="2" cy="14" r="1.5" fill="currentColor" fillOpacity="0.6" />
+                          <circle cx="26" cy="14" r="1.5" fill="currentColor" fillOpacity="0.6" />
+                        </svg>
+                      )
+                    },
+                    { value: "sphere", label: "Sphere", desc: "Holographic orb",
+                      icon: (
+                        <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+                          <circle cx="14" cy="14" r="11" stroke="currentColor" strokeWidth="1.5" />
+                          <ellipse cx="14" cy="14" rx="11" ry="5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
+                          <ellipse cx="14" cy="14" rx="5" ry="11" stroke="currentColor" strokeWidth="1" strokeOpacity="0.5" />
+                          <circle cx="14" cy="14" r="2" fill="currentColor" />
+                        </svg>
+                      )
+                    },
+                    { value: "triangle", label: "Prism", desc: "Geometric prism",
+                      icon: (
+                        <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
+                          <polygon points="14,3 25,24 3,24" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+                          <polygon points="14,21 8,10 20,10" stroke="currentColor" strokeWidth="1" strokeLinejoin="round" fill="currentColor" fillOpacity="0.15" />
+                          <circle cx="14" cy="14.5" r="2" fill="currentColor" />
+                        </svg>
+                      )
+                    },
+                    { value: "text", label: "Text", desc: "Monogram only",
+                      icon: (
+                        <span className="text-lg font-black tracking-tighter leading-none">NX</span>
+                      )
+                    },
+                  ].map((style) => (
+                    <button
+                      key={style.value}
+                      type="button"
+                      onClick={() => setSettings({ ...settings, logoStyle: style.value as any })}
+                      className={`flex items-center gap-3 p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                        settings.logoStyle === style.value
+                          ? "border-violet-500/50 bg-violet-600/10 text-violet-400"
+                          : "border-slate-800 text-slate-400 hover:border-slate-600 hover:bg-white/2"
+                      }`}
+                    >
+                      <div className="w-8 h-8 flex items-center justify-center shrink-0">{style.icon}</div>
+                      <div>
+                        <div className="text-[11px] font-bold tracking-wide">{style.label}</div>
+                        <div className="text-[9px] text-slate-500">{style.desc}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

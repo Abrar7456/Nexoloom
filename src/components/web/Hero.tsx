@@ -198,7 +198,7 @@ export const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#030307] py-20"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent py-20"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       ref={containerRef}

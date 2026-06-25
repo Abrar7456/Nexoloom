@@ -114,7 +114,7 @@ const AboutCard: React.FC<{
 
 export const About: React.FC = () => {
   return (
-    <section id="about" className="py-24 relative overflow-hidden bg-[#030307] border-t border-slate-900">
+    <section id="about" className="py-24 relative overflow-hidden bg-transparent border-t border-slate-900">
       {/* Floating Blobs */}
       <div className="absolute right-0 top-[20%] w-[30vw] h-[30vw] rounded-full bg-blue-900/5 blur-[120px] pointer-events-none" />
 
@@ -129,7 +129,7 @@ export const About: React.FC = () => {
             <div className="h-1 w-20 bg-gradient-to-r from-violet-600 to-blue-500 mt-4 mb-8 rounded-full" />
             
             <p className="text-slate-300 font-light leading-relaxed mb-6">
-              Aura is a digital creative agency that brings together developers, designers, and marketers under one banner. We reject standard templates to build custom high-performance web ecosystems, custom-crafted brands, and ROI-centric campaigns.
+              Nexoloom is a digital creative agency that brings together developers, designers, and marketers under one banner. We reject standard templates to build custom high-performance web ecosystems, custom-crafted brands, and ROI-centric campaigns.
             </p>
             <p className="text-slate-400 font-light leading-relaxed mb-10 text-sm">
               Our engineering team implements modern, fast architectures (like Next.js and Firebase) that load instantly and drive conversion. Our creative side crafts distinct visuals, while our marketing experts optimize search visibility and pay-per-click strategies.

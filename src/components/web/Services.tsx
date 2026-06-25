@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { dbService } from "@/lib/db";
-import { Service } from "@/lib/mockData";
+import { Service } from "@/lib/seedData";
 import { ShoppingBag, TrendingUp, Palette, ArrowRight, CheckCircle, X } from "lucide-react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 
@@ -130,7 +130,7 @@ export const Services: React.FC = () => {
   };
 
   return (
-    <section id="services" className="py-24 relative overflow-hidden bg-[#030307]">
+    <section id="services" className="py-24 relative overflow-hidden bg-transparent">
       {/* Background radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-violet-950/10 rounded-full blur-[150px] pointer-events-none" />
 

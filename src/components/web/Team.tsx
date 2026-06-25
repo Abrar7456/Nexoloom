@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { dbService } from "@/lib/db";
-import { TeamMember } from "@/lib/mockData";
+import { TeamMember } from "@/lib/seedData";
 import { Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -48,7 +48,7 @@ export const Team: React.FC = () => {
   };
 
   return (
-    <section id="team" className="py-24 relative overflow-hidden bg-[#030307]">
+    <section id="team" className="py-24 relative overflow-hidden bg-transparent">
       {/* Background glow */}
       <div className="absolute top-[20%] left-0 w-[400px] h-[400px] bg-violet-950/10 rounded-full blur-[120px] pointer-events-none" />
 

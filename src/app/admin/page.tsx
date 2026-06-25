@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { dbService } from "@/lib/db";
-import { Inquiry, TeamMember, Project } from "@/lib/mockData";
+import { Inquiry, TeamMember, Project } from "@/lib/seedData";
 import {
   Mail,
   Users,

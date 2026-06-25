@@ -131,7 +131,7 @@ export const Process: React.FC = () => {
   });
 
   return (
-    <section id="process" className="py-24 bg-[#030307] relative overflow-hidden" ref={containerRef}>
+    <section id="process" className="py-24 bg-transparent relative overflow-hidden" ref={containerRef}>
       {/* Background glow */}
       <div className="absolute top-[40%] right-0 w-[450px] h-[450px] bg-violet-950/5 rounded-full blur-[130px] pointer-events-none" />
 
@@ -161,7 +161,7 @@ export const Process: React.FC = () => {
               return (
                 <div key={idx} className="relative flex flex-col md:flex-row items-start md:items-center">
                   {/* Outer point marker */}
-                  <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 w-8 h-8 rounded-full bg-[#030307] border-4 border-slate-900 flex items-center justify-center z-20">
+                  <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 w-8 h-8 rounded-full bg-transparent border-4 border-slate-900 flex items-center justify-center z-20">
                     <div className="w-2.5 h-2.5 rounded-full bg-violet-500 shadow-lg shadow-violet-500/50" />
                   </div>
 

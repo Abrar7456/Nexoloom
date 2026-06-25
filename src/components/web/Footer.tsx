@@ -2,8 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { Sparkles, ArrowUp, Heart } from "lucide-react";
+import { Logo } from "./Logo";
+import { useSettings } from "@/context/SettingsContext";
 
 export const Footer: React.FC = () => {
+  const { settings } = useSettings();
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -27,7 +30,7 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="relative bg-[#030307] border-t border-slate-900 pt-16 pb-8 overflow-hidden">
+    <footer className="relative bg-transparent border-t border-slate-900 pt-16 pb-8 overflow-hidden">
       {/* Background decorations */}
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-violet-950/5 rounded-full blur-[100px] pointer-events-none" />
 
@@ -38,17 +41,12 @@ export const Footer: React.FC = () => {
             <a
               href="#hero"
               onClick={(e) => handleLinkClick(e, "#hero")}
-              className="flex items-center gap-2 text-xl font-bold tracking-wider text-white"
+              className="hover:scale-105 transition-transform inline-block"
             >
-              <div className="p-2 bg-gradient-to-tr from-violet-600 to-blue-600 rounded-lg text-white">
-                <Sparkles size={16} />
-              </div>
-              <span className="font-extrabold bg-gradient-to-r from-violet-600 to-blue-500 bg-clip-text text-transparent dark:from-violet-400 dark:to-blue-400">
-                AURA
-              </span>
+              <Logo />
             </a>
             <p className="text-xs text-slate-405 leading-relaxed font-light">
-              Bespoke e-commerce architectures, ROI-oriented digital marketing strategies, and premium visual identities built to grow conversions.
+              {settings.seoDescription || "Bespoke e-commerce architectures, ROI-oriented digital marketing strategies, and premium visual identities built to grow conversions."}
             </p>
 
             {/* Social icons */}
@@ -88,7 +86,7 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h5 className="text-xs font-bold text-white uppercase tracking-widest mb-4">Aura Agency</h5>
+            <h5 className="text-xs font-bold text-white uppercase tracking-widest mb-4">Nexoloom</h5>
             <ul className="space-y-2.5 text-xs text-slate-400 font-light">
               <li>
                 <a href="#services" onClick={(e) => handleLinkClick(e, "#services")} className="hover:text-white transition-colors">
@@ -144,11 +142,11 @@ export const Footer: React.FC = () => {
           <div>
             <h5 className="text-xs font-bold text-white uppercase tracking-widest mb-4">Contact</h5>
             <ul className="space-y-2.5 text-xs text-slate-400 font-light">
-              <li>404 Creative Blvd, SF</li>
-              <li>+1 (555) 321-7654</li>
+              <li>{settings.address}</li>
+              <li>{settings.contactPhone}</li>
               <li>
-                <a href="mailto:hello@auradigital.com" className="hover:text-white transition-colors">
-                  hello@auradigital.com
+                <a href={`mailto:${settings.contactEmail}`} className="hover:text-white transition-colors">
+                  {settings.contactEmail}
                 </a>
               </li>
               <li>
@@ -162,9 +160,9 @@ export const Footer: React.FC = () => {
 
         {/* Legal & Copyright */}
         <div className="border-t border-slate-900 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] text-slate-500 font-semibold tracking-wider uppercase">
-          <p>&copy; {new Date().getFullYear()} Aura Digital. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Nexoloom Digital. All rights reserved.</p>
           <p className="flex items-center gap-1.5 lowercase">
-            Designed with <Heart size={10} className="fill-violet-500 text-violet-500 animate-pulse" /> by Aura Studio
+            Designed with <Heart size={10} className="fill-violet-500 text-violet-500 animate-pulse" /> by Nexoloom Studio
           </p>
         </div>
       </div>

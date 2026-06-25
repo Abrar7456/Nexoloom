@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { SettingsProvider } from "@/context/SettingsContext";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Aura Digital Agency | Premium E-Commerce, Marketing & Design",
-  description: "Aura Digital crafts high-converting e-commerce websites, growth-oriented digital marketing strategies, and premium brand designs.",
+  title: "Nexoloom Digital | Premium E-Commerce, Marketing & Design",
+  description: "Nexoloom Digital crafts high-converting e-commerce websites, growth-oriented digital marketing strategies, and premium brand designs.",
 };
 
 export default function RootLayout({
@@ -30,13 +31,15 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-[#030307] text-slate-100`}>
         <ThemeProvider>
-          <AuthProvider>
-            {children}
-            <Toaster position="bottom-right" toastOptions={{
-              className: 'dark:bg-slate-800 dark:text-slate-100 bg-white text-slate-800 border dark:border-slate-700 border-slate-200 rounded-lg shadow-xl',
-              duration: 4000,
-            }} />
-          </AuthProvider>
+          <SettingsProvider>
+            <AuthProvider>
+              {children}
+              <Toaster position="bottom-right" toastOptions={{
+                className: 'dark:bg-slate-800 dark:text-slate-100 bg-white text-slate-800 border dark:border-slate-700 border-slate-200 rounded-lg shadow-xl',
+                duration: 4000,
+              }} />
+            </AuthProvider>
+          </SettingsProvider>
         </ThemeProvider>
         {/* Load Cloudinary Upload Widget Globally */}
         <Script src="https://upload-widget.cloudinary.com/global/all.js" strategy="lazyOnload" />

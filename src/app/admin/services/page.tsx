@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { dbService } from "@/lib/db";
-import { Service } from "@/lib/mockData";
+import { Service } from "@/lib/seedData";
 import { toast } from "react-hot-toast";
 import { Edit2, HelpCircle, Save, ShoppingBag, TrendingUp, Palette, Trash2, Plus, X } from "lucide-react";
 

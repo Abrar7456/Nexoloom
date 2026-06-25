@@ -74,7 +74,7 @@ export const FAQ: React.FC = () => {
   };
 
   return (
-    <section id="faq" className="py-24 relative overflow-hidden bg-[#030307] border-t border-slate-900">
+    <section id="faq" className="py-24 relative overflow-hidden bg-transparent border-t border-slate-900">
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
           <span className="text-xs font-bold tracking-widest text-violet-400 uppercase">Have Questions?</span>

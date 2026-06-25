@@ -86,7 +86,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="h-16 flex items-center justify-between px-6 border-b border-slate-900">
             {!collapsed && (
               <span className="font-extrabold text-sm tracking-wider bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
-                AURA SYSTEM
+                NX SYSTEM
               </span>
             )}
             {collapsed && <ShieldCheck size={18} className="text-violet-400 mx-auto" />}
@@ -138,7 +138,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Mobile Header navigation */}
       <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-[#0a0a0f] border-b border-slate-900 flex items-center justify-between px-6 z-40">
         <span className="font-extrabold text-sm tracking-wider bg-gradient-to-r from-violet-400 to-blue-400 bg-clip-text text-transparent">
-          AURA ADMIN
+          NEXOLOOM ADMIN
         </span>
         <button
           onClick={() => setMobileOpen(!mobileOpen)}

@@ -13,14 +13,26 @@ import {
   getDoc,
   onSnapshot
 } from "firebase/firestore";
-import { fallbackDB, Service, TeamMember, Project, PricingTier, Testimonial, Inquiry, SiteSettings } from "./mockData";
+import { 
+  Service, 
+  TeamMember, 
+  Project, 
+  PricingTier, 
+  Testimonial, 
+  Inquiry, 
+  SiteSettings,
+  defaultServices,
+  defaultTeam,
+  defaultPortfolio,
+  defaultPricing,
+  defaultTestimonials,
+  defaultSettings
+} from "./seedData";
 
 export const dbService = {
   // Services
   getServices: async (): Promise<Service[]> => {
-    if (!isFirebaseConfigured) {
-      return fallbackDB.getServices();
-    }
+    if (!isFirebaseConfigured) return [];
     try {
       const q = query(collection(db, "services"), orderBy("order", "asc"));
       const snap = await getDocs(q);
@@ -30,40 +42,27 @@ export const dbService = {
       });
       if (list.length === 0) {
         // Seed database if empty
-        const defaults = fallbackDB.getServices();
-        for (const item of defaults) {
+        for (const item of defaultServices) {
           const { id, ...rest } = item;
           await setDoc(doc(db, "services", id), rest);
         }
-        return defaults;
+        return defaultServices;
       }
       return list;
     } catch (e) {
-      console.warn("Firestore error, falling back to LocalStorage:", e);
-      return fallbackDB.getServices();
+      console.warn("Firestore error getting services:", e);
+      return [];
     }
   },
 
   saveService: async (id: string, data: Omit<Service, "id">): Promise<void> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getServices();
-      const idx = list.findIndex((item) => item.id === id);
-      if (idx > -1) {
-        list[idx] = { id, ...data };
-      } else {
-        list.push({ id, ...data });
-      }
-      fallbackDB.saveServices(list);
-      return;
-    }
+    if (!isFirebaseConfigured) return;
     await setDoc(doc(db, "services", id), data);
   },
 
   // Team
   getTeam: async (): Promise<TeamMember[]> => {
-    if (!isFirebaseConfigured) {
-      return fallbackDB.getTeam();
-    }
+    if (!isFirebaseConfigured) return [];
     try {
       const q = query(collection(db, "team"), orderBy("order", "asc"));
       const snap = await getDocs(q);
@@ -72,35 +71,21 @@ export const dbService = {
         list.push({ id: d.id, ...d.data() } as TeamMember);
       });
       if (list.length === 0) {
-        const defaults = fallbackDB.getTeam();
-        for (const item of defaults) {
+        for (const item of defaultTeam) {
           const { id, ...rest } = item;
           await setDoc(doc(db, "team", id), rest);
         }
-        return defaults;
+        return defaultTeam;
       }
       return list;
     } catch (e) {
       console.warn(e);
-      return fallbackDB.getTeam();
+      return [];
     }
   },
 
   saveTeamMember: async (id: string | null, data: Omit<TeamMember, "id">): Promise<string> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getTeam();
-      const targetId = id || "team_" + Math.random().toString(36).substr(2, 9);
-      const idx = list.findIndex((item) => item.id === targetId);
-      const newMember = { id: targetId, ...data };
-      if (idx > -1) {
-        list[idx] = newMember;
-      } else {
-        list.push(newMember);
-      }
-      fallbackDB.saveTeam(list);
-      return targetId;
-    }
-
+    if (!isFirebaseConfigured) throw new Error("Firebase not configured");
     if (id) {
       await setDoc(doc(db, "team", id), data);
       return id;
@@ -111,19 +96,13 @@ export const dbService = {
   },
 
   deleteTeamMember: async (id: string): Promise<void> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getTeam();
-      fallbackDB.saveTeam(list.filter((item) => item.id !== id));
-      return;
-    }
+    if (!isFirebaseConfigured) return;
     await deleteDoc(doc(db, "team", id));
   },
 
   // Portfolio
   getPortfolio: async (): Promise<Project[]> => {
-    if (!isFirebaseConfigured) {
-      return fallbackDB.getPortfolio();
-    }
+    if (!isFirebaseConfigured) return [];
     try {
       const q = query(collection(db, "portfolio"), orderBy("order", "asc"));
       const snap = await getDocs(q);
@@ -132,35 +111,21 @@ export const dbService = {
         list.push({ id: d.id, ...d.data() } as Project);
       });
       if (list.length === 0) {
-        const defaults = fallbackDB.getPortfolio();
-        for (const item of defaults) {
+        for (const item of defaultPortfolio) {
           const { id, ...rest } = item;
           await setDoc(doc(db, "portfolio", id), rest);
         }
-        return defaults;
+        return defaultPortfolio;
       }
       return list;
     } catch (e) {
       console.warn(e);
-      return fallbackDB.getPortfolio();
+      return [];
     }
   },
 
   saveProject: async (id: string | null, data: Omit<Project, "id">): Promise<string> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getPortfolio();
-      const targetId = id || "proj_" + Math.random().toString(36).substr(2, 9);
-      const idx = list.findIndex((item) => item.id === targetId);
-      const newProject = { id: targetId, ...data };
-      if (idx > -1) {
-        list[idx] = newProject;
-      } else {
-        list.push(newProject);
-      }
-      fallbackDB.savePortfolio(list);
-      return targetId;
-    }
-
+    if (!isFirebaseConfigured) throw new Error("Firebase not configured");
     if (id) {
       await setDoc(doc(db, "portfolio", id), data);
       return id;
@@ -171,19 +136,13 @@ export const dbService = {
   },
 
   deleteProject: async (id: string): Promise<void> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getPortfolio();
-      fallbackDB.savePortfolio(list.filter((item) => item.id !== id));
-      return;
-    }
+    if (!isFirebaseConfigured) return;
     await deleteDoc(doc(db, "portfolio", id));
   },
 
   // Pricing
   getPricing: async (): Promise<PricingTier[]> => {
-    if (!isFirebaseConfigured) {
-      return fallbackDB.getPricing();
-    }
+    if (!isFirebaseConfigured) return [];
     try {
       const q = query(collection(db, "pricing"), orderBy("order", "asc"));
       const snap = await getDocs(q);
@@ -192,35 +151,21 @@ export const dbService = {
         list.push({ id: d.id, ...d.data() } as PricingTier);
       });
       if (list.length === 0) {
-        const defaults = fallbackDB.getPricing();
-        for (const item of defaults) {
+        for (const item of defaultPricing) {
           const { id, ...rest } = item;
           await setDoc(doc(db, "pricing", id), rest);
         }
-        return defaults;
+        return defaultPricing;
       }
       return list;
     } catch (e) {
       console.warn(e);
-      return fallbackDB.getPricing();
+      return [];
     }
   },
 
   savePricingTier: async (id: string | null, data: Omit<PricingTier, "id">): Promise<string> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getPricing();
-      const targetId = id || "price_" + Math.random().toString(36).substr(2, 9);
-      const idx = list.findIndex((item) => item.id === targetId);
-      const newTier = { id: targetId, ...data };
-      if (idx > -1) {
-        list[idx] = newTier;
-      } else {
-        list.push(newTier);
-      }
-      fallbackDB.savePricing(list);
-      return targetId;
-    }
-
+    if (!isFirebaseConfigured) throw new Error("Firebase not configured");
     if (id) {
       await setDoc(doc(db, "pricing", id), data);
       return id;
@@ -231,19 +176,13 @@ export const dbService = {
   },
 
   deletePricingTier: async (id: string): Promise<void> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getPricing();
-      fallbackDB.savePricing(list.filter((item) => item.id !== id));
-      return;
-    }
+    if (!isFirebaseConfigured) return;
     await deleteDoc(doc(db, "pricing", id));
   },
 
   // Testimonials
   getTestimonials: async (): Promise<Testimonial[]> => {
-    if (!isFirebaseConfigured) {
-      return fallbackDB.getTestimonials();
-    }
+    if (!isFirebaseConfigured) return [];
     try {
       const q = query(collection(db, "testimonials"), orderBy("order", "asc"));
       const snap = await getDocs(q);
@@ -252,35 +191,21 @@ export const dbService = {
         list.push({ id: d.id, ...d.data() } as Testimonial);
       });
       if (list.length === 0) {
-        const defaults = fallbackDB.getTestimonials();
-        for (const item of defaults) {
+        for (const item of defaultTestimonials) {
           const { id, ...rest } = item;
           await setDoc(doc(db, "testimonials", id), rest);
         }
-        return defaults;
+        return defaultTestimonials;
       }
       return list;
     } catch (e) {
       console.warn(e);
-      return fallbackDB.getTestimonials();
+      return [];
     }
   },
 
   saveTestimonial: async (id: string | null, data: Omit<Testimonial, "id">): Promise<string> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getTestimonials();
-      const targetId = id || "test_" + Math.random().toString(36).substr(2, 9);
-      const idx = list.findIndex((item) => item.id === targetId);
-      const newTest = { id: targetId, ...data };
-      if (idx > -1) {
-        list[idx] = newTest;
-      } else {
-        list.push(newTest);
-      }
-      fallbackDB.saveTestimonials(list);
-      return targetId;
-    }
-
+    if (!isFirebaseConfigured) throw new Error("Firebase not configured");
     if (id) {
       await setDoc(doc(db, "testimonials", id), data);
       return id;
@@ -291,19 +216,13 @@ export const dbService = {
   },
 
   deleteTestimonial: async (id: string): Promise<void> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getTestimonials();
-      fallbackDB.saveTestimonials(list.filter((item) => item.id !== id));
-      return;
-    }
+    if (!isFirebaseConfigured) return;
     await deleteDoc(doc(db, "testimonials", id));
   },
 
   // Inquiries
   getInquiries: async (): Promise<Inquiry[]> => {
-    if (!isFirebaseConfigured) {
-      return fallbackDB.getInquiries();
-    }
+    if (!isFirebaseConfigured) return [];
     try {
       const q = query(collection(db, "inquiries"), orderBy("createdAt", "desc"));
       const snap = await getDocs(q);
@@ -319,14 +238,12 @@ export const dbService = {
       return list;
     } catch (e) {
       console.warn(e);
-      return fallbackDB.getInquiries();
+      return [];
     }
   },
 
   addInquiry: async (data: Omit<Inquiry, "id" | "createdAt" | "status">): Promise<Inquiry> => {
-    if (!isFirebaseConfigured) {
-      return fallbackDB.addInquiry(data);
-    }
+    if (!isFirebaseConfigured) throw new Error("Firebase not configured");
     const record = {
       ...data,
       status: "NEW",
@@ -342,53 +259,35 @@ export const dbService = {
   },
 
   updateInquiryStatus: async (id: string, status: Inquiry["status"]): Promise<void> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getInquiries();
-      const idx = list.findIndex((item) => item.id === id);
-      if (idx > -1) {
-        list[idx].status = status;
-        fallbackDB.saveInquiries(list);
-      }
-      return;
-    }
+    if (!isFirebaseConfigured) return;
     await updateDoc(doc(db, "inquiries", id), { status });
   },
 
   deleteInquiry: async (id: string): Promise<void> => {
-    if (!isFirebaseConfigured) {
-      const list = fallbackDB.getInquiries();
-      fallbackDB.saveInquiries(list.filter((item) => item.id !== id));
-      return;
-    }
+    if (!isFirebaseConfigured) return;
     await deleteDoc(doc(db, "inquiries", id));
   },
 
   // Site Settings
   getSettings: async (): Promise<SiteSettings> => {
-    if (!isFirebaseConfigured) {
-      return fallbackDB.getSettings();
-    }
+    if (!isFirebaseConfigured) return defaultSettings;
     try {
       const docRef = doc(db, "settings", "site-config");
       const snap = await getDoc(docRef);
       if (snap.exists()) {
         return snap.data() as SiteSettings;
       } else {
-        const defaults = fallbackDB.getSettings();
-        await setDoc(docRef, defaults);
-        return defaults;
+        await setDoc(docRef, defaultSettings);
+        return defaultSettings;
       }
     } catch (e) {
-      console.warn(e);
-      return fallbackDB.getSettings();
+      console.warn("Failed to get settings from firestore, using default", e);
+      return defaultSettings;
     }
   },
 
   saveSettings: async (data: SiteSettings): Promise<void> => {
-    if (!isFirebaseConfigured) {
-      fallbackDB.saveSettings(data);
-      return;
-    }
+    if (!isFirebaseConfigured) throw new Error("Firebase not configured");
     await setDoc(doc(db, "settings", "site-config"), data);
   }
 };

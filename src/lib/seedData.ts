@@ -68,6 +68,7 @@ export interface Inquiry {
 export interface SiteSettings {
   title: string;
   logoUrl: string;
+  logoStyle: 'text' | 'circuit' | 'sphere' | 'triangle';
   contactEmail: string;
   contactPhone: string;
   address: string;
@@ -259,9 +260,10 @@ export const defaultTestimonials: Testimonial[] = [
 ];
 
 export const defaultSettings: SiteSettings = {
-  title: "Aura Digital Agency",
+  title: "Nexoloom Digital",
   logoUrl: "",
-  contactEmail: "hello@auradigital.com",
+  logoStyle: "circuit",
+  contactEmail: "hello@nexoloom.com",
   contactPhone: "+1 (555) 321-7654",
   address: "404 Creative Blvd, Suite 101, San Francisco, CA 94107",
   socialLinks: {
@@ -269,76 +271,7 @@ export const defaultSettings: SiteSettings = {
     github: "https://github.com",
     twitter: "https://twitter.com"
   },
-  seoDescription: "Aura Digital is a premier digital agency delivering custom e-commerce solutions, performance-driven digital marketing campaigns, and high-end graphic design services.",
-  seoKeywords: ["digital agency", "e-commerce development", "seo marketing", "brand identity design", "next.js web development"],
+  seoDescription: "Nexoloom Digital is a premier digital agency delivering custom e-commerce solutions, performance-driven digital marketing campaigns, and high-end graphic design services.",
+  seoKeywords: ["digital agency", "e-commerce development", "seo marketing", "brand identity design", "next.js web development", "nexoloom"],
   themeAccent: "violet"
-};
-
-// Local storage keys
-const KEYS = {
-  SERVICES: "agency_services",
-  TEAM: "agency_team",
-  PORTFOLIO: "agency_portfolio",
-  PRICING: "agency_pricing",
-  TESTIMONIALS: "agency_testimonials",
-  INQUIRIES: "agency_inquiries",
-  SETTINGS: "agency_settings"
-};
-
-// Fallback Helper Functions (Read/Write to LocalStorage on client side)
-const isBrowser = typeof window !== "undefined";
-
-function getLocalStorage<T>(key: string, defaultValue: T): T {
-  if (!isBrowser) return defaultValue;
-  const stored = localStorage.getItem(key);
-  if (!stored) {
-    localStorage.setItem(key, JSON.stringify(defaultValue));
-    return defaultValue;
-  }
-  try {
-    return JSON.parse(stored);
-  } catch (e) {
-    return defaultValue;
-  }
-}
-
-function setLocalStorage<T>(key: string, value: T): void {
-  if (isBrowser) {
-    localStorage.setItem(key, JSON.stringify(value));
-  }
-}
-
-export const fallbackDB = {
-  getServices: () => getLocalStorage<Service[]>(KEYS.SERVICES, defaultServices),
-  saveServices: (data: Service[]) => setLocalStorage(KEYS.SERVICES, data),
-
-  getTeam: () => getLocalStorage<TeamMember[]>(KEYS.TEAM, defaultTeam),
-  saveTeam: (data: TeamMember[]) => setLocalStorage(KEYS.TEAM, data),
-
-  getPortfolio: () => getLocalStorage<Project[]>(KEYS.PORTFOLIO, defaultPortfolio),
-  savePortfolio: (data: Project[]) => setLocalStorage(KEYS.PORTFOLIO, data),
-
-  getPricing: () => getLocalStorage<PricingTier[]>(KEYS.PRICING, defaultPricing),
-  savePricing: (data: PricingTier[]) => setLocalStorage(KEYS.PRICING, data),
-
-  getTestimonials: () => getLocalStorage<Testimonial[]>(KEYS.TESTIMONIALS, defaultTestimonials),
-  saveTestimonials: (data: Testimonial[]) => setLocalStorage(KEYS.TESTIMONIALS, data),
-
-  getInquiries: () => getLocalStorage<Inquiry[]>(KEYS.INQUIRIES, []),
-  saveInquiries: (data: Inquiry[]) => setLocalStorage(KEYS.INQUIRIES, data),
-  addInquiry: (inquiry: Omit<Inquiry, "id" | "createdAt" | "status">) => {
-    const list = getLocalStorage<Inquiry[]>(KEYS.INQUIRIES, []);
-    const newInquiry: Inquiry = {
-      ...inquiry,
-      id: "inq_" + Math.random().toString(36).substr(2, 9),
-      status: "NEW",
-      createdAt: new Date().toISOString()
-    };
-    list.unshift(newInquiry);
-    setLocalStorage(KEYS.INQUIRIES, list);
-    return newInquiry;
-  },
-
-  getSettings: () => getLocalStorage<SiteSettings>(KEYS.SETTINGS, defaultSettings),
-  saveSettings: (data: SiteSettings) => setLocalStorage(KEYS.SETTINGS, data)
 };

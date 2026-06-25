@@ -11,15 +11,19 @@ import { FAQ } from "@/components/web/FAQ";
 import { Contact } from "@/components/web/Contact";
 import { Footer } from "@/components/web/Footer";
 import { WaveDivider } from "@/components/web/SVGAnimations";
+import { SceneBackground } from "@/components/web/SceneBackground";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen overflow-x-hidden">
+    <div className="flex flex-col min-h-screen overflow-x-hidden relative">
+      {/* Global 3D animated canvas background — sits behind everything */}
+      <SceneBackground />
+
       {/* Client-facing Header/Navbar */}
       <Navbar />
 
       {/* Main Sections */}
-      <main className="flex-grow">
+      <main className="flex-grow relative z-10">
         <Hero />
         <WaveDivider />
         <Services />
