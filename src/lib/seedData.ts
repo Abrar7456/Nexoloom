@@ -20,6 +20,7 @@ export interface TeamMember {
     instagram?: string;
   };
   order: number;
+  isLeader?: boolean;
 }
 
 export interface Project {
@@ -31,16 +32,6 @@ export interface Project {
   client: string;
   results: string;
   liveLink: string;
-  order: number;
-}
-
-export interface PricingTier {
-  id: string;
-  name: string;
-  monthlyPrice: number;
-  yearlyPrice: number;
-  features: string[];
-  isPopular: boolean;
   order: number;
 }
 
@@ -118,7 +109,8 @@ export const defaultTeam: TeamMember[] = [
     photoUrl: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=400",
     bio: "Alex has over 10 years of experience building scalable architectures. He leads our dev team and ensures all e-commerce applications are optimized for speed.",
     socials: { linkedin: "https://linkedin.com", github: "https://github.com" },
-    order: 1
+    order: 1,
+    isLeader: true
   },
   {
     id: "team-2",
@@ -196,36 +188,6 @@ export const defaultPortfolio: Project[] = [
     results: "4.9 App Store Rating",
     liveLink: "https://example.com/velo",
     order: 4
-  }
-];
-
-export const defaultPricing: PricingTier[] = [
-  {
-    id: "price-1",
-    name: "Starter",
-    monthlyPrice: 999,
-    yearlyPrice: 850,
-    features: ["Single Service Focus", "Dedicated Project Manager", "3 Revisions Included", "Standard Email Support", "Monthly Reports"],
-    isPopular: false,
-    order: 1
-  },
-  {
-    id: "price-2",
-    name: "Growth",
-    monthlyPrice: 2499,
-    yearlyPrice: 1999,
-    features: ["Multi-Service Scope", "Priority Support (Slack/Phone)", "Unlimited Revisions", "Weekly Performance Syncs", "Bi-Weekly Deliverables", "Advanced Market Analytics"],
-    isPopular: true,
-    order: 2
-  },
-  {
-    id: "price-3",
-    name: "Enterprise",
-    monthlyPrice: 4999,
-    yearlyPrice: 3999,
-    features: ["Full Agency Suite Access", "24/7 Priority SLA Response", "Dedicated Engineering Team", "Custom System Integrations", "Quarterly Strategy Audits"],
-    isPopular: false,
-    order: 3
   }
 ];
 

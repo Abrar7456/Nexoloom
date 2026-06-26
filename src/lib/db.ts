@@ -17,14 +17,12 @@ import {
   Service, 
   TeamMember, 
   Project, 
-  PricingTier, 
   Testimonial, 
   Inquiry, 
   SiteSettings,
   defaultServices,
   defaultTeam,
   defaultPortfolio,
-  defaultPricing,
   defaultTestimonials,
   defaultSettings
 } from "./seedData";
@@ -138,46 +136,6 @@ export const dbService = {
   deleteProject: async (id: string): Promise<void> => {
     if (!isFirebaseConfigured) return;
     await deleteDoc(doc(db, "portfolio", id));
-  },
-
-  // Pricing
-  getPricing: async (): Promise<PricingTier[]> => {
-    if (!isFirebaseConfigured) return [];
-    try {
-      const q = query(collection(db, "pricing"), orderBy("order", "asc"));
-      const snap = await getDocs(q);
-      const list: PricingTier[] = [];
-      snap.forEach((d) => {
-        list.push({ id: d.id, ...d.data() } as PricingTier);
-      });
-      if (list.length === 0) {
-        for (const item of defaultPricing) {
-          const { id, ...rest } = item;
-          await setDoc(doc(db, "pricing", id), rest);
-        }
-        return defaultPricing;
-      }
-      return list;
-    } catch (e) {
-      console.warn(e);
-      return [];
-    }
-  },
-
-  savePricingTier: async (id: string | null, data: Omit<PricingTier, "id">): Promise<string> => {
-    if (!isFirebaseConfigured) throw new Error("Firebase not configured");
-    if (id) {
-      await setDoc(doc(db, "pricing", id), data);
-      return id;
-    } else {
-      const docRef = await addDoc(collection(db, "pricing"), data);
-      return docRef.id;
-    }
-  },
-
-  deletePricingTier: async (id: string): Promise<void> => {
-    if (!isFirebaseConfigured) return;
-    await deleteDoc(doc(db, "pricing", id));
   },
 
   // Testimonials

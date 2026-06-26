@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import { useSettings } from "@/context/SettingsContext";
 
 /* ─── theme → RGB colour map ────────────────────────────────────────────── */
@@ -49,7 +49,10 @@ function makeParticles(): Particle[] {
 export const SceneBackground: React.FC = () => {
   const canvasRef   = useRef<HTMLCanvasElement>(null);
   const frameRef    = useRef<number>(0);
-  const scrollRef   = useRef(0);
+  const [smoothScroll, setSmoothScroll] = useState(0);
+  const rafRef = useRef<number>(0);
+  const targetScroll = useRef(0);
+  const currentScroll = useRef(0);
   const timeRef     = useRef(0);
   const ptRef       = useRef<Particle[]>(makeParticles());
   const colorRef    = useRef<[number, number, number]>([139, 92, 246]);
@@ -65,7 +68,9 @@ export const SceneBackground: React.FC = () => {
 
   /* track scroll */
   useEffect(() => {
-    const onScroll = () => { scrollRef.current = window.scrollY; };
+    const onScroll = () => {
+      targetScroll.current = window.scrollY;
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -93,11 +98,12 @@ export const SceneBackground: React.FC = () => {
     timeRef.current += 0.004;
     const t = timeRef.current;
 
-    /* scroll-driven camera tilt */
-    const scrollFrac = Math.min(scrollRef.current / 3000, 1);
-    const rotX = scrollFrac * 0.55;   // tilt forward as user scrolls
-    const rotY = t * 0.12 + scrollFrac * 0.3; // slow auto-pan + scroll boost
-    const depth = 600 + scrollFrac * 300;      // camera pulls back on scroll
+    /* smooth scroll interpolation */
+    currentScroll.current = lerp(currentScroll.current, targetScroll.current, 0.06);
+    const scrollFrac = Math.min(currentScroll.current / 3000, 1);
+    const rotX = scrollFrac * 0.55;
+    const rotY = t * 0.12 + scrollFrac * 0.3;
+    const depth = 600 + scrollFrac * 300;
 
     /* clear */
     ctx.clearRect(0, 0, W, H);

@@ -12,7 +12,8 @@ import {
   ArrowDown,
   Image as ImageIcon,
   Save,
-  X
+  X,
+  Crown
 } from "lucide-react";
 
 export default function TeamCMSPage() {
@@ -44,7 +45,8 @@ export default function TeamCMSPage() {
       photoUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=400",
       bio: "",
       socials: { linkedin: "", github: "", instagram: "" },
-      order: team.length + 1
+      order: team.length + 1,
+      isLeader: false
     });
   };
 
@@ -117,7 +119,8 @@ export default function TeamCMSPage() {
         photoUrl: editingMember.photoUrl || "",
         bio: editingMember.bio || "",
         socials: editingMember.socials || {},
-        order: editingMember.order || 1
+        order: editingMember.order || 1,
+        isLeader: editingMember.isLeader || false
       };
 
       await dbService.saveTeamMember(editingMember.id || null, payload);
@@ -144,9 +147,9 @@ export default function TeamCMSPage() {
     try {
       setTeam(list); // optimistic UI update
       for (let i = 0; i < list.length; i++) {
-        const { id, name, role, department, photoUrl, bio, socials } = list[i];
+        const { id, name, role, department, photoUrl, bio, socials, isLeader } = list[i];
         await dbService.saveTeamMember(id, {
-          name, role, department, photoUrl, bio, socials, order: i + 1
+          name, role, department, photoUrl, bio, socials, isLeader, order: i + 1
         });
       }
       toast.success("Ordering updated.");
@@ -203,7 +206,15 @@ export default function TeamCMSPage() {
                   <td className="p-4 flex items-center gap-4">
                     <img src={member.photoUrl} alt={member.name} className="w-10 h-10 rounded-xl object-cover border border-slate-800" />
                     <div>
-                      <span className="font-bold text-white block text-sm">{member.name}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-white block text-sm">{member.name}</span>
+                        {member.isLeader && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-violet-500/10 border border-violet-500/20 text-[9px] font-bold uppercase tracking-widest text-violet-400">
+                            <Crown className="w-2.5 h-2.5" />
+                            Leader
+                          </span>
+                        )}
+                      </div>
                       <span className="text-slate-500 text-[10px] block">{member.role}</span>
                     </div>
                   </td>
@@ -317,19 +328,43 @@ export default function TeamCMSPage() {
                 />
               </div>
 
-              {/* Department */}
-              <div>
-                <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Department Category</label>
-                <select
-                  value={editingMember.department || "Development"}
-                  onChange={(e) => setEditingMember({ ...editingMember, department: e.target.value as any })}
-                  className="w-full px-4 py-3 text-xs text-slate-300 rounded-xl bg-slate-950 border border-slate-800 focus:outline-none focus:border-violet-500 cursor-pointer"
-                >
-                  <option value="Development">Development</option>
-                  <option value="Design">Design</option>
-                  <option value="Marketing">Marketing</option>
-                </select>
-              </div>
+               {/* Department */}
+               <div>
+                 <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-2">Department Category</label>
+                 <select
+                   value={editingMember.department || "Development"}
+                   onChange={(e) => setEditingMember({ ...editingMember, department: e.target.value as any })}
+                   className="w-full px-4 py-3 text-xs text-slate-300 rounded-xl bg-slate-950 border border-slate-800 focus:outline-none focus:border-violet-500 cursor-pointer"
+                 >
+                   <option value="Development">Development</option>
+                   <option value="Design">Design</option>
+                   <option value="Marketing">Marketing</option>
+                 </select>
+               </div>
+
+               {/* Team Leader Toggle */}
+               <div className="flex items-center justify-between p-4 rounded-xl bg-slate-950 border border-slate-800">
+                 <div className="flex items-center gap-3">
+                   <Crown className="w-4 h-4 text-violet-400" />
+                   <div>
+                     <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">Team Leader</label>
+                     <p className="text-[10px] text-slate-500 mt-0.5">Display this member as the team leader</p>
+                   </div>
+                 </div>
+                 <button
+                   type="button"
+                   onClick={() => setEditingMember({ ...editingMember, isLeader: !editingMember.isLeader })}
+                   className={`relative w-11 h-6 rounded-full transition-all duration-300 cursor-pointer ${
+                     editingMember.isLeader ? "bg-violet-600" : "bg-slate-800"
+                   }`}
+                 >
+                   <span
+                     className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow-md transition-transform duration-300 ${
+                       editingMember.isLeader ? "translate-x-5" : "translate-x-0"
+                     }`}
+                   />
+                 </button>
+               </div>
 
               {/* Bio */}
               <div>

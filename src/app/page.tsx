@@ -5,7 +5,6 @@ import { About } from "@/components/web/About";
 import { Team } from "@/components/web/Team";
 import { Portfolio } from "@/components/web/Portfolio";
 import { Process } from "@/components/web/Process";
-import { Pricing } from "@/components/web/Pricing";
 import { Testimonials } from "@/components/web/Testimonials";
 import { FAQ } from "@/components/web/FAQ";
 import { Contact } from "@/components/web/Contact";
@@ -30,7 +29,6 @@ export default function Home() {
         <Team />
         <Portfolio />
         <Process />
-        <Pricing />
         <Testimonials />
         <FAQ />
         <Contact />

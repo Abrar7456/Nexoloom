@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { dbService } from "@/lib/db";
 import { toast } from "react-hot-toast";
-import { Mail, Phone, MapPin, Send, CheckCircle2, MessageSquare, AlertCircle } from "lucide-react";
+import { Mail, Phone, Send, CheckCircle2, MessageSquare, AlertCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSettings } from "@/context/SettingsContext";
 
@@ -99,12 +99,12 @@ export const Contact: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Left Panel: Contact info & Map */}
-          <div className="lg:col-span-5 flex flex-col justify-between gap-8">
+          {/* Left Panel: Contact info */}
+          <div className="lg:col-span-5 flex flex-col gap-8">
             <div className="space-y-6">
               <h3 className="text-xl font-bold text-white tracking-tight">Contact Information</h3>
               <p className="text-slate-400 font-light leading-relaxed text-sm">
-                Ready to transform your online presence? Drop us a line, send an email, or swing by our headquarters. We are ready to build.
+                Ready to transform your online presence? Drop us a line, send an email. We are ready to build.
               </p>
 
               <div className="space-y-4 pt-4">
@@ -131,30 +131,7 @@ export const Contact: React.FC = () => {
                     </a>
                   </div>
                 </div>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-violet-600/10 text-violet-400 flex items-center justify-center shrink-0">
-                    <MapPin size={18} />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block">Headquarters</span>
-                    <span className="text-sm text-slate-200 font-medium">
-                      {settings.address}
-                    </span>
-                  </div>
-                </div>
               </div>
-            </div>
-
-            {/* Premium Dark Google Map */}
-            <div className="h-64 w-full rounded-2xl overflow-hidden border border-slate-800 shadow-xl relative">
-              <iframe
-                title="Nexoloom Office Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0863878174415!2d-122.40428588468205!3d37.78564177975878!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1m3!1d1576!2d-122.4019!3d37.784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1655000000000!5m2!1sen!2sus"
-                className="w-full h-full border-0 grayscale invert opacity-70 contrast-125"
-                allowFullScreen={false}
-                loading="lazy"
-              />
             </div>
           </div>
 
@@ -179,7 +156,7 @@ export const Contact: React.FC = () => {
                         <input
                           type="text"
                           {...register("name")}
-                          placeholder="John Doe"
+                          placeholder="Enter your full name"
                           className={`w-full px-4 py-3 rounded-xl bg-slate-950 border text-sm text-white focus:outline-none focus:border-violet-500 transition-all ${
                             errors.name ? "border-red-500/50" : "border-slate-800"
                           }`}
@@ -198,7 +175,7 @@ export const Contact: React.FC = () => {
                         <input
                           type="email"
                           {...register("email")}
-                          placeholder="john@example.com"
+                          placeholder="Enter your email address"
                           className={`w-full px-4 py-3 rounded-xl bg-slate-950 border text-sm text-white focus:outline-none focus:border-violet-500 transition-all ${
                             errors.email ? "border-red-500/50" : "border-slate-800"
                           }`}
@@ -219,7 +196,7 @@ export const Contact: React.FC = () => {
                         <input
                           type="tel"
                           {...register("phone")}
-                          placeholder="+1 (555) 123-4567"
+                          placeholder="Enter your phone number"
                           className={`w-full px-4 py-3 rounded-xl bg-slate-950 border text-sm text-white focus:outline-none focus:border-violet-500 transition-all ${
                             errors.phone ? "border-red-500/50" : "border-slate-800"
                           }`}
@@ -264,7 +241,7 @@ export const Contact: React.FC = () => {
                         id="message-input"
                         {...register("message")}
                         rows={5}
-                        placeholder="Tell us about your project goals, timelines, and requirements..."
+                        placeholder="Tell us about your project"
                         className={`w-full px-4 py-3 rounded-xl bg-slate-950 border text-sm text-white focus:outline-none focus:border-violet-500 transition-all ${
                           errors.message ? "border-red-500/50" : "border-slate-800"
                         }`}
@@ -334,7 +311,7 @@ export const Contact: React.FC = () => {
               type="email"
               value={newsletterEmail}
               onChange={(e) => setNewsletterEmail(e.target.value)}
-              placeholder="newsletter@company.com"
+               placeholder="Enter your email"
               className="px-4 py-3 text-sm text-white rounded-xl bg-slate-950 border border-slate-800 focus:outline-none focus:border-violet-500 w-full md:w-64"
             />
             <button
